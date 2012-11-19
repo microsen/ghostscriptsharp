@@ -1,6 +1,8 @@
 using System;
+using System.Drawing;
 using System.Text;
 using System.Runtime.InteropServices;
+using GhostscriptSharp.Settings;
 
 namespace GhostscriptSharp
 {
@@ -63,6 +65,19 @@ namespace GhostscriptSharp
 		{
 			CallAPI(GetArgs(inputPath, outputPath, firstPage, lastPage, width, height));
 		}
+
+        public static void GenerateSinglePagePng(string inputPath, string outputPath, int page)
+        {
+            GenerateOutput(inputPath, outputPath, new GhostscriptSettings
+                                                      {
+                                                          Device = GhostscriptDevices.png256,
+                                                          Size =
+                                                              new GhostscriptPageSize {Native = GhostscriptPageSizes.a4}
+                                                          ,
+                                                          Resolution = new Size(400, 640),
+                                                          Page = new GhostscriptPages {Start = page, End = page}
+                                                      });
+        }
 
 		/// <summary>
 		/// Rasterises a PDF into selected format
